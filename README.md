@@ -8,6 +8,8 @@ Make sure to install the dependencies:
 
 ```bash
 # npm
+npm install quasar @quasar/extras
+npx nuxi@latest module add quasar
 
 npm install
 ```
