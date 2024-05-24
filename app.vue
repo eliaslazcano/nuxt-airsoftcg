@@ -111,7 +111,7 @@ const nomeDeExibicao = computed(() => {
               <q-avatar color="primary" text-color="white">
                 <img
                   v-if="session.payload.foto"
-                  :src="api.defaults.baseURL + `/usuario/avatar?id=${session.payload.usuario}&thumb=40&sessao=${session.payload.sessao}`"
+                  :src="`${runtimeConfig.public.baseURL}/usuario/avatar?id=${session.payload.usuario}&thumb=40&sessao=${session.payload.sessao}`"
                   alt=""
                 >
                 <q-icon v-else name="person" size="1.5em" />

@@ -4,7 +4,6 @@ import {removerAcentos, removerEspacosRepetidos} from '@eliaslazcano/utils'
 const {data: pageData} = await useApi('/usuario/listagem')
 const sessionStore = useSessionStore()
 const config = useRuntimeConfig()
-const router = useRouter()
 
 const iconSize = '.8rem'
 
