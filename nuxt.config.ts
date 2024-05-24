@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["nuxt-quasar-ui","@pinia/nuxt","@pinia-plugin-persistedstate/nuxt"],
+  css: ['~/assets/css/main.css'],
   runtimeConfig: {
     public: {
       headerTitle: "Airsoft CG",
