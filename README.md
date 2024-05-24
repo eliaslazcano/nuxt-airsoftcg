@@ -8,10 +8,11 @@ Make sure to install the dependencies:
 
 ```bash
 # npm
+npm install
 npm install quasar @quasar/extras
 npx nuxi@latest module add quasar
-
-npm install
+npm install pinia @pinia/nuxt
+npx nuxi@latest module add pinia
 ```
 
 ## Development Server
