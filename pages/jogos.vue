@@ -2,7 +2,7 @@
 import {msgRecursoRestrito} from '~/utils/index.js'
 
 const {data: pageData} = await useApi('/jogos')
-const sessionStore = useSessionStore()
+const session = useSessionStore()
 const router = useRouter()
 const moment = useMoment()
 const $q = useQuasar()
@@ -19,14 +19,14 @@ const formatarData = datetime => moment(datetime).format('DD/MM/YYYY HH:mm [—]
 const notificarIpt = ref(false)
 const notificarDisable = ref(false)
 const notificarSubmit = async () => {
-  if (!sessionStore.isAuthenticated) {
+  if (!session.isAuthenticated) {
     return $q.dialog({
       title: 'Você não está logado',
       message: msgRecursoRestrito,
       html: true,
       ok: 'Registrar-se',
       cancel: 'Voltar'
-    }).onOk(() => router.push('/criar-conta'))
+    }).onOk(() => router.push('/auth/registrar'))
       .onDismiss(() => notificarIpt.value = false)
   }
 

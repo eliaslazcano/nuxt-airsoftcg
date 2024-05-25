@@ -2,7 +2,7 @@
 import {removerAcentos, removerEspacosRepetidos} from '@eliaslazcano/utils'
 
 const {data: pageData} = await useApi('/usuario/listagem')
-const sessionStore = useSessionStore()
+const session = useSessionStore()
 const config = useRuntimeConfig()
 
 const iconSize = '.8rem'
@@ -35,7 +35,7 @@ const tbRowsFiltered = computed(() => {
         <div class="text-h6 text-center q-mb-xs">Membros</div>
       </div>
 
-      <q-card flat bordered class="q-mb-md" v-if="!sessionStore.isAuthenticated">
+      <q-card flat bordered class="q-mb-md" v-if="!session.isAuthenticated">
         <q-card-section class="q-pb-xs">
           <div class="text-h6">Ainda não é membro?</div>
           É grátis, e os benefícios são:
@@ -74,7 +74,7 @@ const tbRowsFiltered = computed(() => {
             rounded
             size="sm"
             padding="xs lg"
-            to="/criar-conta"
+            to="/auth/registrar"
           />
         </q-card-actions>
       </q-card>
