@@ -73,7 +73,7 @@ const nomeDeExibicao = computed(() => {
                   </q-item-section>
                   <q-item-section>Tema {{ $q.dark.isActive ? 'claro' : 'escuro' }}</q-item-section>
                 </q-item>
-                <q-item clickable exact to="/trocar-senha" v-if="session.isAuthenticated">
+                <q-item clickable exact to="/auth/trocar-senha" v-if="session.isAuthenticated">
                   <q-item-section avatar>
                     <q-icon name="lock_reset" />
                   </q-item-section>
