@@ -9,17 +9,17 @@ export const useSessionStore = defineStore('session', {
       const partes = state.token.split('.')
       if (partes.length !== 3) return null
       try {
-        return JSON.parse(window.atob(partes[1]))
+        return JSON.parse(decodeBase64(partes[1]))
       } catch (e) {
         return null
       }
     },
   },
   actions: {
-    logout() {
+    logout(exibirMensagem = true) {
       if (this.token) {
         this.token = null
-        Notify.create({type: 'negative', message: 'Você foi desconectado'})
+        if (exibirMensagem) Notify.create({type: 'negative', message: 'Você foi desconectado'})
       }
       const router = useRouter()
       return router.push('/login')
