@@ -11,12 +11,11 @@ const processing = ref(false)
 const onSubmit = async () => {
   try {
     processing.value = true
-    const {data} = await useApi('/auth/login', {method: 'POST', body: form})
-    session.token = data.value.token
+    const {data, error} = await useApi('/auth/login', {method: 'POST', body: form})
+    if (error.value) return
     if (data.value.mensagem) $q.notify({type: 'positive', message: data.value.mensagem, icon: 'thumb_up'})
+    session.token = data.value.token
     await router.push(route.query.next ? route.query.next : '/')
-  } catch (e) {
-    console.log('erroooooo')
   } finally {
     processing.value = false
   }
@@ -126,7 +125,7 @@ const onSubmit = async () => {
                 unelevated
                 rounded
                 padding="xs lg"
-                to="/criar-conta"
+                to="/auth/registrar"
                 :disable="processing"
               />
             </q-card-actions>

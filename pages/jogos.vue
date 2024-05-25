@@ -33,7 +33,8 @@ const notificarSubmit = async () => {
   notificarDisable.value = true
   try {
     const json = {valor: notificarIpt.value}
-    const {data} = await useApi('/usuario/notificar-jogo', {method: 'POST', body: json})
+    const {data, error} = await useApi('/usuario/notificar-jogo', {method: 'POST', body: json})
+    if (error.value) return
     if (data.value.mensagem) $q.notify({message: data.value.mensagem, type: 'positive'})
     pageData.value.notificar = data.value.valor
     notificarIpt.value = data.value.valor
