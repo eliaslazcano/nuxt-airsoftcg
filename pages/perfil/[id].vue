@@ -2,6 +2,10 @@
 import {copiarTextoParaAreaTransferencia} from '@eliaslazcano/utils'
 import {fabInstagram} from '@quasar/extras/fontawesome-v6'
 
+definePageMeta({
+  validate: async (route) => typeof route.params.id === 'string' && /^\d+$/.test(route.params.id)
+})
+
 const $q = useQuasar()
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -12,7 +16,6 @@ const usuarioEdit = sessionStore.isAuthenticated && sessionStore.payload.usuario
 
 const {data: resultado, refresh} = await useApi(`/usuario/perfil?id=${usuarioId.value}`)
 const usuarioInfo = computed(() => resultado.value.perfil)
-watch(() => route.params.id, () => refresh())
 
 const perfilPodeMelhorar = computed(() => !usuarioInfo.value.foto || !usuarioInfo.value.apelido ||
   !usuarioInfo.value.classe || !usuarioInfo.value.instagram)
@@ -159,7 +162,7 @@ const copiarLink = async () => {
 
       <q-card-actions class="q-mt-none q-pt-none text-center justify-center q-gutter-y-md">
         <q-btn color="negative" size="sm" icon="lock_reset" label="Trocar senha" to="/auth/trocar-senha" v-if="usuarioEdit" />
-<!--        <q-btn color="primary" size="sm" icon="edit" label="Modificar perfil" to="/alterar-perfil" v-if="usuarioEdit" />-->
+        <q-btn color="primary" size="sm" icon="edit" label="Modificar perfil" to="/perfil/modificar" v-if="usuarioEdit" />
         <q-btn color="primary" size="sm" icon="link" label="Copiar link" @click="copiarLink" />
       </q-card-actions>
     </div>
