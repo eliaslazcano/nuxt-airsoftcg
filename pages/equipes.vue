@@ -8,9 +8,9 @@ const {data} = await useApi('/equipes')
   <q-page padding>
     <div style="width: 48rem; max-width: 100%" class="q-mx-auto q-pb-lg">
       <div class="text-center q-mb-lg">
-        <div class="text-h4 bebas-font-family">Equipes de airsoft</div>
+        <div class="text-h4 font-bebas">Equipes de airsoft</div>
         <q-separator spaced style="width: 12rem" class="q-mx-auto"></q-separator>
-        <div class="jost-font-family">equipes da região</div>
+        <div class="font-jost">equipes da região</div>
       </div>
       <div class="row q-col-gutter-md justify-center">
         <div class="col-12 col-sm-6 col-md-4" v-for="i in data.lista" :key="i.id">

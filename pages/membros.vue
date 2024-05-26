@@ -150,7 +150,7 @@ const tbRowsFiltered = computed(() => {
         </q-list>
       </q-card>
 
-      <p class="q-mb-none text-grey text-center jost-font-family" style="font-size: 1rem">{{ tbRows.length }} membros no total</p>
+      <p class="q-mb-none text-grey text-center font-jost" style="font-size: 1rem">{{ tbRows.length }} membros no total</p>
     </div>
   </q-page>
 </template>

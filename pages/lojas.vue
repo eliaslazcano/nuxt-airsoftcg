@@ -9,9 +9,9 @@ const {data} = await useApi('/lojas')
   <q-page padding>
     <div style="width: 64rem; max-width: 100%" class="q-mx-auto q-pb-lg">
       <div class="text-center q-mb-lg">
-        <div class="text-h4 bebas-font-family">Lojas e Armeiros</div>
+        <div class="text-h4 font-bebas">Lojas e Armeiros</div>
         <q-separator spaced style="width: 12rem" class="q-mx-auto"></q-separator>
-        <div class="jost-font-family">comércio regional</div>
+        <div class="font-jost">comércio regional</div>
       </div>
       <div class="row q-col-gutter-lg justify-center">
         <div class="col-12 col-sm-6 col-lg-4" v-for="i in data.lojas" :key="i.id">
