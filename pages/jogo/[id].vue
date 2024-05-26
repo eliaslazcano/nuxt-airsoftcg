@@ -67,7 +67,7 @@ const apagarJogo = () => {
   }).onOk(async () => {
     const dialog = $q.dialog({ progress: true, persistent: true, ok: false })
     try {
-      const {data, error} = await useApi(`/jogos?id=${jogoId.value}`, {method: 'DELETE'})
+      const {data, error} = await useApi(`/jogos?id=${jogoId}`, {method: 'DELETE'})
       if (error.value) return
       if (data.value.mensagem) $q.notify({type: 'positive', message: data.value.mensagem})
       router.push('/jogos')
@@ -91,7 +91,7 @@ const aprovarJogo = async () => {
   }).onOk(async () => {
     const dialog = $q.dialog({ progress: true, persistent: true, ok: false })
     try {
-      const body = {id: jogoId.value}
+      const body = {id: jogoId}
       const {data, error} = await useApi('/gestao/aprovar-jogo', {body, method: 'POST'})
       if (error.value) return
       if (data.value.mensagem) $q.notify({type: 'positive', message: data.value.mensagem})
@@ -111,7 +111,7 @@ const reprovarJogo = async () => {
   }).onOk(async () => {
     const dialog = $q.dialog({ progress: true, persistent: true, ok: false })
     try {
-      const {data, error} = await useApi(`/gestao/aprovar-jogo?id=${jogoId.value}`, {method: 'DELETE'})
+      const {data, error} = await useApi(`/gestao/aprovar-jogo?id=${jogoId}`, {method: 'DELETE'})
       if (error.value) return
       if (data.value.mensagem) $q.notify({type: 'positive', message: data.value.mensagem})
       router.push('/jogos')

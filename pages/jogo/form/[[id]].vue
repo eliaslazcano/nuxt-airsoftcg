@@ -77,7 +77,9 @@ const formSubmit = async () => {
       localLink: formCampoLinkVlr.value ? formCampoLinkVlr.value.trim().toLowerCase() : null,
       texto: formEventoDescricao.value ? formEventoDescricao.value.trim() : null,
     }
-    const {data} = useApi('/jogos', {method: jogoId ? 'PUT' : 'POST', body})
+    const method = jogoId ? 'PUT' : 'POST'
+    const {data, error} = await useApi('/jogos', {method, body})
+    if (error.value) return
     if (data.value.mensagem) $q.notify({type: 'positive', message: data.value.mensagem})
     if (data.value.id) return router.push(`/jogo/${data.value.id}`)
   } finally {

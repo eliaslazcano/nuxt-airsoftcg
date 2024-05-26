@@ -86,12 +86,16 @@ watch(notificarIpt, v => {
               </q-avatar>
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{i.local}}</q-item-label>
+              <q-item-label>
+                {{i.local}}
+                <q-chip v-if="i.status === 0" dense size="sm" label="ANALISAR" color="negative" />
+              </q-item-label>
               <q-item-label caption :class="{'text-lined': i.ocorreu}">{{formatarData(i.datahora)}}</q-item-label>
               <q-item-label caption>{{i.titulo ? i.titulo : 'JOGO ABERTO'}}</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-btn icon="touch_app" color="primary" round flat dense></q-btn>
+              <q-icon name="warning" color="orange" v-if="i.status === 0" />
+              <q-btn icon="touch_app" color="primary" round flat dense v-else />
             </q-item-section>
           </q-item>
         </q-list>
