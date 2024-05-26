@@ -140,7 +140,7 @@ const reprovarJogo = async () => {
               text-color="white"
               icon="edit"
               size="sm"
-              :to="`/cadastrar-jogo/form/${jogoId}`"
+              :to="`/jogo/form/${jogoId}`"
               rounded
             />
             <q-btn
@@ -162,7 +162,7 @@ const reprovarJogo = async () => {
             text-color="white"
             icon="edit"
             size="sm"
-            :to="`/cadastrar-jogo/form/${jogoId}`"
+            :to="`/jogo/form/${jogoId}`"
             rounded
           />
           <q-btn

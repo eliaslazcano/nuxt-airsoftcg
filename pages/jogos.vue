@@ -104,7 +104,7 @@ watch(notificarIpt, v => {
           label="Publicar um jogo"
           icon="add"
           size="sm"
-          to="/cadastrar-jogo/form"
+          to="/jogo/form"
         />
       </div>
     </div>

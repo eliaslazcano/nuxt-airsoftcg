@@ -27,7 +27,7 @@ const submitFn = async () => {
 
 <template>
   <q-page padding>
-    <div class="q-mx-auto" style="width: 24rem; max-width: 100%">
+    <div class="q-mx-auto" style="width: 22rem; max-width: 100%">
       <q-card>
         <q-form @submit.prevent="submitFn">
           <q-card-toolbar title="Trocar senha"/>

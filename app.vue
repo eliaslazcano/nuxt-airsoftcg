@@ -138,7 +138,7 @@ const nomeDeExibicao = computed(() => {
           <q-item-label header>Conteúdo principal</q-item-label>
           <q-nav-item to="/" icon="home" title="Início"/>
           <q-nav-item to="/jogos" icon="flag" title="Jogos publicados"/>
-          <q-nav-item to="/cadastrar-jogo/form" icon="add_circle" title="Criar jogo"/>
+          <q-nav-item to="/jogo/form" icon="add_circle" title="Criar jogo"/>
           <q-nav-item to="/membros" icon="group" title="Membros"/>
           <q-separator spaced inset />
           <q-item-label header>Informações Extras</q-item-label>
