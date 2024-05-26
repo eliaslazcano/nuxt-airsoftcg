@@ -1,4 +1,8 @@
 <script setup>
+definePageMeta({
+  middleware: ["auth"]
+})
+
 const sessionStore = useSessionStore()
 const router = useRouter()
 const $q = useQuasar()

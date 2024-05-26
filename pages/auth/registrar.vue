@@ -1,6 +1,15 @@
 <script setup>
 import {validarEmail} from '@eliaslazcano/utils'
 
+definePageMeta({
+  middleware: [
+    function () {
+      const session = useSessionStore()
+      if (session.isAuthenticated) return navigateTo(`/perfil/${session.payload.usuario}`)
+    },
+  ],
+});
+
 const $q = useQuasar()
 const router = useRouter()
 const session = useSessionStore()

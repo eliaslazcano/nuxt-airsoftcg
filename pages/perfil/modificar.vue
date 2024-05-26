@@ -2,6 +2,10 @@
 import {validarEmail, ordenarArrayDeObjetos} from '@eliaslazcano/utils'
 import {fabInstagram} from '@quasar/extras/fontawesome-v6'
 
+definePageMeta({
+  middleware: ["auth"]
+})
+
 const $q = useQuasar()
 const router = useRouter()
 const sessionStore = useSessionStore()

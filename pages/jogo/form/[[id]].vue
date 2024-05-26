@@ -1,4 +1,9 @@
 <script setup>
+definePageMeta({
+  middleware: ["auth"],
+  validate: route => !route.params.id || typeof route.params.id === 'string' && /^\d+$/.test(route.params.id)
+})
+
 const $q = useQuasar()
 const route = useRoute()
 const router = useRouter()
@@ -147,6 +152,12 @@ const editorConfig = [
         </q-card>
         <q-form @submit.prevent="formSubmit" @validation-error="formInvalid" greedy v-else>
           <div class="row q-col-gutter-md">
+            <div class="col-12">
+              <p
+                class="q-mb-none text-center font-jost"
+                style="font-size: 1.2rem"
+              >{{jogoId ? 'EDITAR JOGO' : 'PUBLICAR JOGO'}}</p>
+            </div>
             <div class="col-12">
               <q-card flat bordered>
                 <q-card-section>

@@ -2,7 +2,7 @@
 import {copiarTextoParaAreaTransferencia} from '@eliaslazcano/utils'
 
 definePageMeta({
-  validate: async (route) => typeof route.params.id === 'string' && /^\d+$/.test(route.params.id)
+  validate: route => typeof route.params.id === 'string' && /^\d+$/.test(route.params.id)
 })
 
 const $q = useQuasar()
