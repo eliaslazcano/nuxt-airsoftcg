@@ -29,7 +29,7 @@ export default defineNuxtConfig({
     },
     plugins: ["Dialog","Notify"],
     extras: {
-      animations: ["fadeIn","fadeOut","fadeInUp","fadeOutDown"],
+      animations: ["fadeIn","fadeOut"],
     },
   },
   pinia: {

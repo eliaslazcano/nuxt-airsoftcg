@@ -121,208 +121,201 @@ const editorConfig = [
 <template>
   <q-page padding>
     <div class="q-mx-auto q-pb-xl" style="width: 56em; max-width: 100%">
-      <transition
-        appear
-        mode="out-in"
-        enter-active-class="animated fadeInUp slow"
-        leave-active-class="animated fadeOutDown"
-      >
-        <q-card bordered flat v-if="exibirIntroducao">
-          <q-card-toolbar title="Como vai funcionar"/>
-          <q-card-section>
-            <p>Um questionário será apresentado a seguir. É obrigatório fornecer a data, hora e local do Briefing do jogo.
-              As demais informações são opcionais.</p>
-            <p><span class="text-negative">Para evitar fraudes</span>, o seu jogo só será publicado após a aprovação de um <strong>moderador</strong>. Se nenhum moderador analisar sua publicação em <strong>até 6 horas</strong>, ela será aprovada automaticamente.</p>
-            <q-banner class="bg-info" rounded dense>
-              <q-icon name="info" class="q-mr-xs" /> Você se torna um moderador após publicar 3 jogos e ter 1 mês de cadastro como membro.
-            </q-banner>
-            <p class="q-mt-md q-mb-none">Vamos para as informações do jogo!</p>
-          </q-card-section>
-          <q-card-actions>
-            <q-btn
-              color="primary"
-              padding="xs md"
-              label="CANCELAR"
-              outline
-              @click="router.push('/jogos'); $q.notify({type: 'negative', message: 'Publicação cancelada.'})"
-            />
-            <q-space></q-space>
-            <q-btn color="primary" padding="xs md" label="PROSSEGUIR" @click="exibirIntroducao = false" />
-          </q-card-actions>
-        </q-card>
-        <q-form @submit.prevent="formSubmit" @validation-error="formInvalid" greedy v-else>
-          <div class="row q-col-gutter-md">
-            <div class="col-12">
-              <p
-                class="q-mb-none text-center font-jost"
-                style="font-size: 1.2rem"
-              >{{jogoId ? 'EDITAR JOGO' : 'PUBLICAR JOGO'}}</p>
-            </div>
-            <div class="col-12">
-              <q-card flat bordered>
-                <q-card-section>
-                  <p class="text-weight-bold">1.Quem está organizando o jogo?</p>
-                  <p class="text-caption">Se você não souber, ou não quiser revelar, selecione "não sei".</p>
-                  <q-option-group
-                    v-model="formOrganizadorTipoVlr"
-                    :options="formOrganizadorTipoOpt"
-                    class="q-mb-md"
+      <q-card bordered flat v-if="exibirIntroducao">
+        <q-card-toolbar title="Como vai funcionar"/>
+        <q-card-section>
+          <p>Um questionário será apresentado a seguir. É obrigatório fornecer a data, hora e local do Briefing do jogo.
+            As demais informações são opcionais.</p>
+          <p><span class="text-negative">Para evitar fraudes</span>, o seu jogo só será publicado após a aprovação de um <strong>moderador</strong>. Se nenhum moderador analisar sua publicação em <strong>até 6 horas</strong>, ela será aprovada automaticamente.</p>
+          <q-banner class="bg-info" rounded dense>
+            <q-icon name="info" class="q-mr-xs" /> Você se torna um moderador após publicar 3 jogos e ter 1 mês de cadastro como membro.
+          </q-banner>
+          <p class="q-mt-md q-mb-none">Vamos para as informações do jogo!</p>
+        </q-card-section>
+        <q-card-actions>
+          <q-btn
+            color="primary"
+            padding="xs md"
+            label="CANCELAR"
+            outline
+            @click="router.push('/jogos'); $q.notify({type: 'negative', message: 'Publicação cancelada.'})"
+          />
+          <q-space></q-space>
+          <q-btn color="primary" padding="xs md" label="PROSSEGUIR" @click="exibirIntroducao = false" />
+        </q-card-actions>
+      </q-card>
+      <q-form @submit.prevent="formSubmit" @validation-error="formInvalid" greedy v-else>
+        <div class="row q-col-gutter-md">
+          <div class="col-12">
+            <p
+              class="q-mb-none text-center font-jost"
+              style="font-size: 1.2rem"
+            >{{jogoId ? 'EDITAR JOGO' : 'PUBLICAR JOGO'}}</p>
+          </div>
+          <div class="col-12">
+            <q-card flat bordered>
+              <q-card-section>
+                <p class="text-weight-bold">1.Quem está organizando o jogo?</p>
+                <p class="text-caption">Se você não souber, ou não quiser revelar, selecione "não sei".</p>
+                <q-option-group
+                  v-model="formOrganizadorTipoVlr"
+                  :options="formOrganizadorTipoOpt"
+                  class="q-mb-md"
+                />
+                <div v-if="formOrganizadorTipoVlr === 1">
+                  <q-separator class="q-mb-md"></q-separator>
+                  <p>Informe abaixo o nome da pessoa que está organizando o jogo:</p>
+                  <q-input
+                    label="Nome do organizador:"
+                    v-model="formOrganizadorNomeVlr"
+                    :rules="formOrganizadorNomeRules"
+                    placeholder="Digite aqui"
+                    stack-label
+                    outlined
                   />
-                  <div v-if="formOrganizadorTipoVlr === 1">
-                    <q-separator class="q-mb-md"></q-separator>
-                    <p>Informe abaixo o nome da pessoa que está organizando o jogo:</p>
+                </div>
+                <div v-else-if="formOrganizadorTipoVlr === 2">
+                  <q-separator class="q-mb-md"></q-separator>
+                  <p>Informe abaixo qual time está organizando o jogo:</p>
+                  <q-select
+                    label="Time:"
+                    v-model="formOrganizadorEquipeVlr"
+                    :options="formOrganizadorEquipeOpt"
+                    :rules="formOrganizadorNomeRules"
+                    option-label="nome"
+                    option-value="id"
+                    placeholder="Digite aqui"
+                    stack-label
+                    outlined
+                  >
+                    <template v-slot:prepend v-if="formOrganizadorEquipeVlr">
+                      <q-icon name="do_not_disturb" v-if="!formOrganizadorEquipeVlr.imagem" />
+                      <q-icon :name="`img:/img/equipes/${formOrganizadorEquipeVlr.imagem}`" v-else />
+                    </template>
+                    <template v-slot:option="scope">
+                      <q-item v-bind="scope.itemProps">
+                        <q-item-section avatar>
+                          <q-icon :name="`img:/img/equipes/${scope.opt.imagem}`" v-if="scope.opt.imagem" />
+                          <q-icon name="do_not_disturb" v-else />
+                        </q-item-section>
+                        <q-item-section>
+                          <q-item-label>{{ scope.opt.nome }}</q-item-label>
+                        </q-item-section>
+                      </q-item>
+                    </template>
+                  </q-select>
+                  <q-input
+                    v-if="formOrganizadorEquipeVlr?.id === 0"
+                    label="Qual o nome do time?"
+                    v-model="formOrganizadorNomeVlr"
+                    :rules="formOrganizadorNomeRules"
+                    placeholder="Digite aqui"
+                    stack-label
+                    outlined
+                  />
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
+          <div class="col-12">
+            <q-card flat bordered>
+              <q-card-section>
+                <p class="text-weight-bold">2.Local do evento</p>
+                <q-input
+                  label="Nome do campo:"
+                  v-model="formCampoNomeVlr"
+                  class="q-mb-lg"
+                  placeholder="Opcional"
+                  stack-label
+                  outlined
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="location_city" />
+                  </template>
+                </q-input>
+                <q-input
+                  label="Link do local no Google Maps:"
+                  v-model="formCampoLinkVlr"
+                  placeholder="Opcional"
+                  stack-label
+                  outlined
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="link" />
+                  </template>
+                </q-input>
+              </q-card-section>
+            </q-card>
+          </div>
+          <div class="col-12">
+            <q-card flat bordered>
+              <q-card-section>
+                <p class="text-weight-bold">3.Informações básicas</p>
+                <div class="row q-col-gutter-md">
+                  <div class="col-12">
                     <q-input
-                      label="Nome do organizador:"
-                      v-model="formOrganizadorNomeVlr"
-                      :rules="formOrganizadorNomeRules"
-                      placeholder="Digite aqui"
-                      stack-label
-                      outlined
-                    />
-                  </div>
-                  <div v-else-if="formOrganizadorTipoVlr === 2">
-                    <q-separator class="q-mb-md"></q-separator>
-                    <p>Informe abaixo qual time está organizando o jogo:</p>
-                    <q-select
-                      label="Time:"
-                      v-model="formOrganizadorEquipeVlr"
-                      :options="formOrganizadorEquipeOpt"
-                      :rules="formOrganizadorNomeRules"
-                      option-label="nome"
-                      option-value="id"
-                      placeholder="Digite aqui"
+                      label="Nome do evento:"
+                      v-model="formEventoTituloVlr"
+                      class="q-mb-md"
+                      placeholder="Opcional"
                       stack-label
                       outlined
                     >
-                      <template v-slot:prepend v-if="formOrganizadorEquipeVlr">
-                        <q-icon name="do_not_disturb" v-if="!formOrganizadorEquipeVlr.imagem" />
-                        <q-icon :name="`img:/img/equipes/${formOrganizadorEquipeVlr.imagem}`" v-else />
+                      <template v-slot:prepend>
+                        <q-icon name="campaign" />
                       </template>
-                      <template v-slot:option="scope">
-                        <q-item v-bind="scope.itemProps">
-                          <q-item-section avatar>
-                            <q-icon :name="`img:/img/equipes/${scope.opt.imagem}`" v-if="scope.opt.imagem" />
-                            <q-icon name="do_not_disturb" v-else />
-                          </q-item-section>
-                          <q-item-section>
-                            <q-item-label>{{ scope.opt.nome }}</q-item-label>
-                          </q-item-section>
-                        </q-item>
-                      </template>
-                    </q-select>
-                    <q-input
-                      v-if="formOrganizadorEquipeVlr?.id === 0"
-                      label="Qual o nome do time?"
-                      v-model="formOrganizadorNomeVlr"
-                      :rules="formOrganizadorNomeRules"
-                      placeholder="Digite aqui"
+                    </q-input>
+                  </div>
+                  <div class="col-12">
+                    <q-date-picker
+                      label="Data do evento"
+                      v-model="formEventoDataVlr"
+                      :rules="[v => !!v || 'Coloque a data do evento!']"
                       stack-label
                       outlined
                     />
                   </div>
-                </q-card-section>
-              </q-card>
-            </div>
-            <div class="col-12">
-              <q-card flat bordered>
-                <q-card-section>
-                  <p class="text-weight-bold">2.Local do evento</p>
-                  <q-input
-                    label="Nome do campo:"
-                    v-model="formCampoNomeVlr"
-                    class="q-mb-lg"
-                    placeholder="Opcional"
-                    stack-label
-                    outlined
-                  >
-                    <template v-slot:prepend>
-                      <q-icon name="location_city" />
-                    </template>
-                  </q-input>
-                  <q-input
-                    label="Link do local no Google Maps:"
-                    v-model="formCampoLinkVlr"
-                    placeholder="Opcional"
-                    stack-label
-                    outlined
-                  >
-                    <template v-slot:prepend>
-                      <q-icon name="link" />
-                    </template>
-                  </q-input>
-                </q-card-section>
-              </q-card>
-            </div>
-            <div class="col-12">
-              <q-card flat bordered>
-                <q-card-section>
-                  <p class="text-weight-bold">3.Informações básicas</p>
-                  <div class="row q-col-gutter-md">
-                    <div class="col-12">
-                      <q-input
-                        label="Nome do evento:"
-                        v-model="formEventoTituloVlr"
-                        class="q-mb-md"
-                        placeholder="Opcional"
-                        stack-label
-                        outlined
-                      >
-                        <template v-slot:prepend>
-                          <q-icon name="campaign" />
-                        </template>
-                      </q-input>
-                    </div>
-                    <div class="col-12">
-                      <q-date-picker
-                        label="Data do evento"
-                        v-model="formEventoDataVlr"
-                        :rules="[v => !!v || 'Coloque a data do evento!']"
-                        stack-label
-                        outlined
-                      />
-                    </div>
-                    <div class="col-12">
-                      <q-input
-                        label="Hora do Briefing"
-                        v-model="formEventoHoraVlr"
-                        :rules="formEventoHoraRules"
-                        mask="time"
-                        placeholder="__:__"
-                        type="tel"
-                        stack-label
-                        outlined
-                      >
-                        <template v-slot:prepend>
-                          <q-icon name="access_time" />
-                        </template>
-                      </q-input>
-                    </div>
+                  <div class="col-12">
+                    <q-input
+                      label="Hora do Briefing"
+                      v-model="formEventoHoraVlr"
+                      :rules="formEventoHoraRules"
+                      mask="time"
+                      placeholder="__:__"
+                      type="tel"
+                      stack-label
+                      outlined
+                    >
+                      <template v-slot:prepend>
+                        <q-icon name="access_time" />
+                      </template>
+                    </q-input>
                   </div>
-                </q-card-section>
-              </q-card>
-            </div>
-            <div class="col-12">
-              <q-card flat bordered>
-                <q-card-section>
-                  <p class="text-weight-bold q-mb-none">4.Descrição e regras do evento</p>
-                  <p class="text-caption">Opcional, você pode deixar vazio.</p>
-                  <q-editor
-                    v-model="formEventoDescricao"
-                    min-height="14rem"
-                    :toolbar="editorConfig"
-                  />
-                </q-card-section>
-              </q-card>
-            </div>
-            <div class="col-12">
-              <q-card-actions class="justify-center q-pt-none">
-                <q-btn color="primary" padding="xs lg" label="Cancelar" outline @click="router.back()" />
-                <q-btn color="primary" padding="xs lg" label="Salvar" type="submit" />
-              </q-card-actions>
-            </div>
+                </div>
+              </q-card-section>
+            </q-card>
           </div>
-        </q-form>
-      </transition>
+          <div class="col-12">
+            <q-card flat bordered>
+              <q-card-section>
+                <p class="text-weight-bold q-mb-none">4.Descrição e regras do evento</p>
+                <p class="text-caption">Opcional, você pode deixar vazio.</p>
+                <q-editor
+                  v-model="formEventoDescricao"
+                  min-height="14rem"
+                  :toolbar="editorConfig"
+                />
+              </q-card-section>
+            </q-card>
+          </div>
+          <div class="col-12">
+            <q-card-actions class="justify-center q-pt-none">
+              <q-btn color="primary" padding="xs lg" label="Cancelar" outline @click="router.back()" />
+              <q-btn color="primary" padding="xs lg" label="Salvar" type="submit" />
+            </q-card-actions>
+          </div>
+        </div>
+      </q-form>
     </div>
   </q-page>
 </template>
