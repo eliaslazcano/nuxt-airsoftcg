@@ -42,6 +42,13 @@ const organizadorImagem = computed(() => {
   return 'local_police'
 })
 
+useSeoMeta({
+  title: 'Airsoft CG - Detalhes do jogo',
+  ogTitle: pageData.value?.jogo.titulo ? pageData.value.jogo.titulo : 'JOGO ABERTO',
+  ogDescription: eventoData.value + ', ' + eventoLocalNome.value,
+  ogImage: organizadorEquipe.value?.imagem ? `https://airsoftcg.com.br/img/equipes/${organizadorEquipe.value.imagem}` : null,
+})
+
 const copiarTexto = async () => {
   let texto = ''
   if (eventoData.value) texto += 'Jogo ' + eventoData.value + '.\n'

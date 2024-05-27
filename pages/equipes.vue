@@ -1,6 +1,12 @@
 <script setup>
 import {fabInstagram} from '@quasar/extras/fontawesome-v6'
 
+useSeoMeta({
+  title: 'Airsoft CG - Equipes de Airsoft',
+  ogTitle: 'Equipes de Airsoft',
+  ogDescription: 'Equipes de Campo Grande e região',
+})
+
 const {data} = await useApi('/equipes')
 </script>
 

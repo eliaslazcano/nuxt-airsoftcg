@@ -1,6 +1,12 @@
 <script setup>
 import {msgRecursoRestrito} from '~/utils/index.js'
 
+useSeoMeta({
+  title: 'Airsoft CG - Mural de Jogos',
+  ogTitle: 'Mural de Jogos',
+  ogDescription: 'Cronograma de jogos em campo grande',
+})
+
 const {data: pageData} = await useApi('/jogos')
 const session = useSessionStore()
 const router = useRouter()

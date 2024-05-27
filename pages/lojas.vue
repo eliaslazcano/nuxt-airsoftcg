@@ -2,6 +2,12 @@
 import {formatarTelefone} from '@eliaslazcano/utils'
 import {fabWhatsapp, fabInstagram} from '@quasar/extras/fontawesome-v6'
 
+useSeoMeta({
+  title: 'Airsoft CG - Lojas e Armeiros',
+  ogTitle: 'Lojas e Armeiros',
+  ogDescription: 'Comerciantes de Airsoft em Campo Grande',
+})
+
 const {data} = await useApi('/lojas')
 </script>
 

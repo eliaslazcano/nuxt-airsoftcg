@@ -26,6 +26,13 @@ const fotoSrc = computed(() => {
   return config.public.baseURL + `/usuario/avatar?id=${usuarioId.value}&thumb=144${extra}`
 })
 
+useSeoMeta({
+  ogTitle: usuarioInfo.value.apelido || usuarioInfo.value.nome,
+  ogDescription: usuarioInfo.value.classe?.titulo ? usuarioInfo.value.classe.titulo : 'Perfil na comunidade Airsoft CG',
+  ogImage: fotoSrc.value ? fotoSrc.value : null,
+  ogImageType: fotoSrc.value ? "image/webp" : null,
+})
+
 const salvarFoto = async (base64) => {
   const dialog = $q.dialog({ message: 'Gravando..', progress: true, persistent: true, ok: false })
   try {
