@@ -28,7 +28,7 @@ const fotoSrc = computed(() => {
 
 useSeoMeta({
   ogTitle: usuarioInfo.value.apelido || usuarioInfo.value.nome,
-  ogDescription: usuarioInfo.value.classe?.titulo ? usuarioInfo.value.classe.titulo : 'Perfil na comunidade Airsoft CG',
+  ogDescription: usuarioInfo.value.classe?.titulo ? `CLASSE: ${usuarioInfo.value.classe.titulo}` : 'Perfil na comunidade Airsoft CG',
   ogImage: fotoSrc.value ? fotoSrc.value : null,
   ogImageType: fotoSrc.value ? "image/webp" : null,
 })

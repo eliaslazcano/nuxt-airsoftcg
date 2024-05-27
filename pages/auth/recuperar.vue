@@ -1,6 +1,11 @@
 <script setup>
 definePageMeta({
-  validate: route => !!route.query.token && route.query.token.length === 32
+  //validate: route => !!route.query.token && route.query.token.length === 32,
+  middleware: [
+    function (to) {
+      if (!to.query.token) navigateTo('/login')
+    },
+  ],
 })
 
 const sessionStore = useSessionStore()

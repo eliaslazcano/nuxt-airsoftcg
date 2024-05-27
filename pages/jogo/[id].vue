@@ -42,10 +42,13 @@ const organizadorImagem = computed(() => {
   return 'local_police'
 })
 
+let ogDescription = moment(pageData.value.jogo.datahora).format('DD/MM/YYYY HH:mm')
+ogDescription += (eventoLocalNome.value) ? (' - ' + eventoLocalNome.value) : (' ' + moment(pageData.value.jogo.datahora).format('[-] dddd'))
+
 useSeoMeta({
   title: 'Airsoft CG - Detalhes do jogo',
   ogTitle: pageData.value?.jogo.titulo ? pageData.value.jogo.titulo : 'JOGO ABERTO',
-  ogDescription: eventoData.value + ', ' + eventoLocalNome.value,
+  ogDescription,
   ogImage: organizadorEquipe.value?.imagem ? `https://airsoftcg.com.br/img/equipes/${organizadorEquipe.value.imagem}` : null,
 })
 
