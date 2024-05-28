@@ -16,7 +16,8 @@ const jogoId = Number(route.params.id)
 const {data: pageData} = await useApi(`/jogos?id=${jogoId}`)
 
 const permitidoEditar = computed(() => sessionStore.isAuthenticated && sessionStore.payload.usuario === pageData.value?.jogo.autor.id)
-const eventoNome = computed(() => pageData.value?.jogo.titulo ? pageData.value.jogo.titulo : 'Detalhes do jogo')
+const eventoNome = computed(() => pageData.value?.jogo.titulo ? pageData.value.jogo.titulo : null)
+const eventoIcone = computed(() => pageData.value?.jogo.icone ? `${config.public.baseURL}/storage/jogo/${pageData.value.jogo.icone}` : null)
 const eventoData = computed(() => !pageData.value?.jogo.datahora ? null : moment(pageData.value.jogo.datahora).format('DD/MM/YYYY [—] dddd').toUpperCase())
 const eventoHora = computed(() => !pageData.value?.jogo.datahora ? null : moment(pageData.value.jogo.datahora).format('HH:mm'))
 const eventoNoturno = computed(() => {
@@ -38,18 +39,16 @@ const organizadorNome = computed(() => {
   return ''
 })
 const organizadorImagem = computed(() => {
-  if (organizadorEquipe.value?.imagem) return `img:/img/equipes/${organizadorEquipe.value.imagem}`
-  return 'local_police'
+  if (organizadorEquipe.value?.imagem) return `/img/equipes/${organizadorEquipe.value.imagem}`
+  return null
 })
-
-let ogDescription = moment(pageData.value.jogo.datahora).format('DD/MM/YYYY HH:mm')
-ogDescription += (eventoLocalNome.value) ? (' - ' + eventoLocalNome.value) : (' ' + moment(pageData.value.jogo.datahora).format('[-] dddd'))
 
 useSeoMeta({
   title: 'Airsoft CG - Detalhes do jogo',
-  ogTitle: pageData.value?.jogo.titulo ? pageData.value.jogo.titulo : 'JOGO ABERTO',
-  ogDescription,
-  ogImage: organizadorEquipe.value?.imagem ? `https://airsoftcg.com.br/img/equipes/${organizadorEquipe.value.imagem}` : null,
+  ogTitle: eventoNome.value ? eventoNome.value : `JOGO ABERTO - ${moment(pageData.value.jogo.datahora).format('DD/MM')}`,
+  ogDescription: moment(pageData.value.jogo.datahora).format(eventoNome.value ? 'DD/MM HH[h]mm [-] ' : 'HH[h]mm [-] ') +
+    (eventoLocalNome.value ? eventoLocalNome.value : moment(pageData.value.jogo.datahora).format('dddd').toUpperCase()),
+  ogImage: eventoIcone.value ? eventoIcone.value : (organizadorImagem.value ? `https://airsoftcg.com.br/${organizadorImagem.value}` : null),
 })
 
 const copiarTexto = async () => {
@@ -141,7 +140,7 @@ const reprovarJogo = async () => {
       </q-banner>
 
       <q-card flat bordered>
-        <q-card-toolbar :title="eventoNome">
+        <q-card-toolbar :title="eventoNome ? eventoNome : 'Detalhes do jogo'">
           <div v-if="permitidoEditar && !$q.screen.lt.sm">
             <q-btn
               label="Editar"
@@ -187,7 +186,9 @@ const reprovarJogo = async () => {
         <q-list separator>
           <q-item v-if="eventoData">
             <q-item-section avatar>
-              <q-icon name="event" />
+              <q-avatar>
+                <q-icon name="event" size="1.4em" />
+              </q-avatar>
             </q-item-section>
             <q-item-section>
               <q-item-label caption lines="1">DATA DO EVENTO</q-item-label>
@@ -196,7 +197,9 @@ const reprovarJogo = async () => {
           </q-item>
           <q-item v-if="eventoHora">
             <q-item-section avatar>
-              <q-icon name="access_time" />
+              <q-avatar>
+                <q-icon name="access_time" size="1.4em" />
+              </q-avatar>
             </q-item-section>
             <q-item-section>
               <q-item-label caption lines="1">HORA DO BRIEFING</q-item-label>
@@ -208,7 +211,10 @@ const reprovarJogo = async () => {
           </q-item>
           <q-item v-if="eventoLocalNome" :href="eventoLocalLink" target="_blank">
             <q-item-section avatar>
-              <q-icon name="place" />
+              <q-avatar>
+                <img v-if="organizadorImagem && eventoIcone" :src="eventoIcone" alt="">
+                <q-icon v-else name="place" size="1.4em" />
+              </q-avatar>
             </q-item-section>
             <q-item-section>
               <q-item-label caption lines="1">LOCAL</q-item-label>
@@ -221,7 +227,10 @@ const reprovarJogo = async () => {
           </q-item>
           <q-item v-if="organizadorNome">
             <q-item-section avatar>
-              <q-icon :name="organizadorImagem" />
+              <q-avatar square class="rounded-borders">
+                <img v-if="organizadorImagem || eventoIcone" :src="organizadorImagem || eventoIcone" alt="">
+                <q-icon v-else name="local_police" size="1.4em" />
+              </q-avatar>
             </q-item-section>
             <q-item-section>
               <q-item-label caption lines="1">ORGANIZAÇÃO</q-item-label>

@@ -8,6 +8,7 @@ const $q = useQuasar()
 const route = useRoute()
 const router = useRouter()
 const moment = useMoment()
+const config = useRuntimeConfig()
 const sessionStore = useSessionStore()
 
 const jogoId = route.params.id ? Number(route.params.id) : null
@@ -36,6 +37,18 @@ const formEventoHoraRules = [
 const formEventoHoraVlr = ref('')
 
 const formEventoDescricao = ref('')
+const formEventoIconeAtual = ref(null) //String URL, mostra a imagem autualmente cadastrada no servidor.
+const formEventoIconeNovo = ref(null) //Base64, ao subimitar o form, essa imagem é enviada.
+const formEventoIconeEncodar = canvas => {
+  const dialog = $q.dialog({ message: 'Montando', progress: true, persistent: true, ok: false })
+  try {
+    formEventoIconeNovo.value = canvas.toDataURL('image/webp', 1)
+  } catch (e) {
+    $q.notify({type: 'negative', message: 'Seu dispositivo não tem compatibilidade com o conversor de imagem.'})
+  } finally {
+    setTimeout(() => dialog.hide(), 1000)
+  }
+}
 
 const equipeDesconhecida = {id: 0, nome: 'NENHUM DA LISTA'}
 const fetchData = async () => {
@@ -58,6 +71,7 @@ const fetchData = async () => {
     formCampoNomeVlr.value = data.value.jogo.local.nome ? data.value.jogo.local.nome : ''
     formCampoLinkVlr.value = data.value.jogo.local.link ? data.value.jogo.local.link : ''
     formEventoDescricao.value = data.value.jogo.texto ? data.value.jogo.texto : ''
+    formEventoIconeAtual.value = data.value.jogo.icone ? data.value.jogo.icone : null
   } else {
     const {data} = await useApi(`/equipes`, {method: 'POST'})
     formOrganizadorEquipeOpt.value = [equipeDesconhecida, ...data.value.lista]
@@ -81,6 +95,7 @@ const formSubmit = async () => {
       localNome: formCampoNomeVlr.value ? formCampoNomeVlr.value.trim().toUpperCase() : null,
       localLink: formCampoLinkVlr.value ? formCampoLinkVlr.value.trim().toLowerCase() : null,
       texto: formEventoDescricao.value ? formEventoDescricao.value.trim() : null,
+      icone: formEventoIconeNovo.value ? formEventoIconeNovo.value : null,
     }
     const method = jogoId ? 'PUT' : 'POST'
     const {data, error} = await useApi('/jogos', {method, body})
@@ -309,6 +324,38 @@ const editorConfig = [
             </q-card>
           </div>
           <div class="col-12">
+            <q-card flat bordered>
+              <q-card-section>
+                <p class="text-weight-bold q-mb-none">5.Mídia de divulgação</p>
+                <p class="text-caption">Opcional, você pode deixar sem, mas é especialmente útil quando você compartilha o link do evento.</p>
+                <q-list padding>
+                  <q-item @click="$refs.cropperRefIcone.selecionarArquivo()" clickable>
+                    <q-item-section avatar>
+                      <q-avatar :color="formEventoIconeNovo || formEventoIconeAtual ? null : 'grey'" rounded>
+                        <img
+                          v-if="formEventoIconeNovo"
+                          :src="formEventoIconeNovo"
+                          alt=""
+                        />
+                        <img
+                          v-else-if="formEventoIconeAtual"
+                          :src="`${config.public.baseURL}/storage/jogo/${formEventoIconeAtual}`"
+                          alt=""
+                        />
+                        <q-icon name="hide_image" color="white" v-else />
+                      </q-avatar>
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>Imagem de ícone para whatsapp</q-item-label>
+                      <q-item-label caption v-if="formEventoIconeAtual">Clique para trocar o ícone</q-item-label>
+                      <q-item-label caption v-else>Clique para inserir um ícone</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-card-section>
+            </q-card>
+          </div>
+          <div class="col-12">
             <q-card-actions class="justify-center q-pt-none">
               <q-btn color="primary" padding="xs lg" label="Cancelar" outline @click="router.back()" />
               <q-btn color="primary" padding="xs lg" label="Salvar" type="submit" />
@@ -317,5 +364,11 @@ const editorConfig = [
         </div>
       </q-form>
     </div>
+
+    <ImageCropperDialog
+      ref="cropperRefIcone"
+      :tamanho-saida="[300,300]"
+      @cropped="canvas => formEventoIconeEncodar(canvas)"
+    />
   </q-page>
 </template>

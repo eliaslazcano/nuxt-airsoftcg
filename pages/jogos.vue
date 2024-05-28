@@ -9,6 +9,7 @@ useSeoMeta({
 
 const {data: pageData} = await useApi('/jogos')
 const session = useSessionStore()
+const config = useRuntimeConfig()
 const router = useRouter()
 const moment = useMoment()
 const $q = useQuasar()
@@ -16,8 +17,15 @@ const $q = useQuasar()
 const momentoAtual = moment()
 const dataAtual = momentoAtual.format("YYYY-MM-DD HH:mm:ss")
 
+const getThumb = (icone, imagem) => {
+  if (icone) return {src: `${config.public.baseURL}/storage/jogo/${icone}`, color: 'none', icon: false}
+  else if (imagem) return {src: `/img/equipes/${imagem}`, color: 'none', icon: false}
+  return {src: 'flag', color: 'primary', icon: true}
+}
+
 const jogos = computed(() => pageData.value.jogos.map(i => {
   i.restam = dataAtual < i.datahora ? moment(i.datahora, "YYYY-MM-DD HH:mm:ss").diff(momentoAtual, 'hours') : null
+  i.thumb = getThumb(i.icone, i.imagem)
   return i
 }))
 const formatarData = datetime => moment(datetime).format('DD/MM/YYYY HH:mm [—] dddd').toUpperCase()
@@ -86,9 +94,9 @@ watch(notificarIpt, v => {
         <q-list separator>
           <q-item v-for="i in jogos" :key="i.id" :class="{'disabled':i.ocorreu}" :to="`/jogo/${i.id}`" clickable>
             <q-item-section avatar>
-              <q-avatar square class="rounded-borders" :color="i.imagem ? undefined : 'primary'">
-                <img :src="`img/equipes/${i.imagem}`" alt="" v-if="i.imagem">
-                <q-icon name="flag" color="white" v-else />
+              <q-avatar square class="rounded-borders" :color="i.thumb.color">
+                <q-icon :name="i.thumb.src" color="white" v-if="i.thumb.icon" />
+                <img :src="i.thumb.src" alt="" v-else>
               </q-avatar>
             </q-item-section>
             <q-item-section>

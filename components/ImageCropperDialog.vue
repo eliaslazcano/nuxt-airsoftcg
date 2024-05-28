@@ -7,7 +7,7 @@
           ref="cropperRef"
           :src="imagemOrigem"
           :stencil-props="{aspectRatio: 1}"
-          :stencil-component="CircleStencil"
+          :stencil-component="circulo ? CircleStencil : RectangleStencil"
           :canvas="{height: props.tamanhoSaida[0], width: props.tamanhoSaida[1]}"
         />
       </q-card-section>
@@ -21,15 +21,14 @@
 
 <script setup>
 import {converteBlobPraBase64} from '@eliaslazcano/utils'
-import {Cropper, CircleStencil} from 'vue-advanced-cropper'
+import {Cropper, CircleStencil, RectangleStencil} from 'vue-advanced-cropper'
 import 'vue-advanced-cropper/dist/style.css'
 import 'vue-advanced-cropper/dist/theme.bubble.css'
 
 const emits = defineEmits(['cropped'])
 const props = defineProps({
   tamanhoSaida: {type: Array, default: () => [256,256]},
-  mimeSaida: {type: String, default: null},
-  qualidade: {type: Number, default: 1}
+  circulo: {type: Boolean, default: false}
 })
 
 const fileInputRef = ref()
@@ -56,8 +55,7 @@ const fecharCropper = () => {
 
 const cropparImagem = () => {
   const { canvas } = cropperRef.value.getResult()
-  const base64 = canvas.toDataURL(props.mimeSaida ? props.mimeSaida : imagemOrigemMimetype.value, props.qualidade)
-  emits('cropped', base64)
+  emits('cropped', canvas)
   fecharCropper()
 }
 

@@ -33,10 +33,11 @@ useSeoMeta({
   ogImageType: fotoSrc.value ? "image/webp" : null,
 })
 
-const salvarFoto = async (base64) => {
+const salvarFoto = async canvas => {
   const dialog = $q.dialog({ message: 'Gravando..', progress: true, persistent: true, ok: false })
   try {
-    const body = {foto: base64}
+    const foto = canvas.toDataURL('image/jpeg', 1)
+    const body = {foto}
     const {data} = await useApi('/usuario/avatar', {body, method: 'POST'})
     await refresh()
     if (data.value.token) sessionStore.token = data.value.token
@@ -174,7 +175,7 @@ const copiarLink = async () => {
       </q-card-actions>
     </div>
 
-    <ImageCropperDialog ref="cropperRef" @cropped="img64 => salvarFoto(img64)" mimeSaida="image/jpeg" />
+    <ImageCropperDialog ref="cropperRef" @cropped="canvas => salvarFoto(canvas)" />
 
     <q-dialog v-model="instagramDialog">
       <q-card style="width: 24rem; max-width: 100%">
