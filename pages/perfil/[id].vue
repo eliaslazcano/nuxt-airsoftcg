@@ -26,9 +26,19 @@ const fotoSrc = computed(() => {
   return config.public.baseURL + `/usuario/avatar?id=${usuarioId.value}&thumb=144${extra}`
 })
 
+let ogTitle = usuarioInfo.value.apelido || usuarioInfo.value.nome
+if (usuarioInfo.value.equipe?.nome) ogTitle += ` - ${usuarioInfo.value.equipe.nome.toUpperCase()}`
+
+let ogDescription = []
+if (usuarioInfo.value.classe?.titulo) ogDescription.push(usuarioInfo.value.classe.titulo)
+if (usuarioInfo.value.funcao?.titulo) ogDescription.push(`ESP. ${usuarioInfo.value.funcao.titulo}`)
+ogDescription = ogDescription.length > 0 ? ogDescription.join(' - ') : 'Perfil na comunidade Airsoft CG'
+
 useSeoMeta({
-  ogTitle: usuarioInfo.value.apelido || usuarioInfo.value.nome,
-  ogDescription: usuarioInfo.value.classe?.titulo ? `CLASSE: ${usuarioInfo.value.classe.titulo}` : 'Perfil na comunidade Airsoft CG',
+  title: `Airsoft CG - Membro ` + (usuarioInfo.value.apelido || usuarioInfo.value.nome),
+  description: ogTitle,
+  ogTitle,
+  ogDescription,
   ogImage: fotoSrc.value ? fotoSrc.value : null,
   ogImageType: fotoSrc.value ? "image/webp" : null,
 })
@@ -106,11 +116,29 @@ const copiarLink = async () => {
         </q-card-section>
       </q-card>
 
+      <q-card flat bordered v-if="usuarioInfo.equipe" class="q-mt-md">
+        <q-list>
+          <q-item>
+            <q-item-section avatar>
+              <q-avatar square>
+                <img :src="`/img/equipes/${usuarioInfo.equipe.icone}`" alt="">
+              </q-avatar>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label caption>EQUIPE</q-item-label>
+              <q-item-label>{{usuarioInfo.equipe.nome.toUpperCase()}}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card>
+
       <q-card flat bordered v-if="usuarioInfo.classe" class="q-mt-md">
         <q-list>
           <q-item>
             <q-item-section avatar>
-              <q-icon :name="`img:/img/classes/${usuarioInfo.classe.icone}`" size="42px" />
+              <q-avatar>
+                <img :src="`/img/classes/${usuarioInfo.classe.icone}`" alt="">
+              </q-avatar>
             </q-item-section>
             <q-item-section>
               <q-item-label caption>CLASSE FAVORITA</q-item-label>
@@ -124,7 +152,9 @@ const copiarLink = async () => {
         <q-list>
           <q-item>
             <q-item-section avatar>
-              <q-icon :name="`img:/img/especialidades/${usuarioInfo.funcao.icone}`" size="42px" />
+              <q-avatar>
+                <img :src="`/img/especialidades/${usuarioInfo.funcao.icone}`" alt="">
+              </q-avatar>
             </q-item-section>
             <q-item-section>
               <q-item-label caption>ESPECIALIDADE DE CAMPO</q-item-label>

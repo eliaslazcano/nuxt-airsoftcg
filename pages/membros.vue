@@ -13,9 +13,11 @@ const tbRows = computed(() => {
   return pageData.value.usuarios.map(i => {
     const classesLista = pageData.value.classes ? pageData.value.classes : []
     const funcoesLista = pageData.value.funcoes ? pageData.value.funcoes : []
+    const equipesLista = pageData.value.equipes ? pageData.value.equipes : []
     const classe = classesLista.find(x => x.id === i.classe)
     const funcao = funcoesLista.find(x => x.id === i.funcao)
-    return {id: i.id, nome: i.nome.toUpperCase(), foto: i.foto, classe, funcao}
+    const equipe = equipesLista.find(x => x.id === i.equipe)
+    return {id: i.id, nome: i.nome.toUpperCase(), foto: i.foto, classe, funcao, equipe}
   })
 })
 const tbRowsFiltered = computed(() => {
@@ -104,9 +106,10 @@ const tbRowsFiltered = computed(() => {
                 <q-icon name="person" color="white" v-else />
               </q-avatar>
             </q-item-section>
-
             <q-item-section>
-              <q-item-label>{{i.nome}}</q-item-label>
+              <q-item-label>
+                {{i.nome}} <span v-if="i.equipe?.nome" class="text-grey">- {{i.equipe.nome.toUpperCase()}}</span>
+              </q-item-label>
               <q-item-label v-if="i.classe">
                 <div class="q-gutter-x-xs">
                   <q-badge color="primary" v-if="i.classe" rounded>
@@ -126,9 +129,8 @@ const tbRowsFiltered = computed(() => {
                 </div>
               </q-item-label>
             </q-item-section>
-
-            <q-item-section side>
-              <q-btn icon="touch_app" color="primary" round flat dense></q-btn>
+            <q-item-section side v-if="i.equipe?.imagem">
+              <q-icon :name="`img:/img/equipes/${i.equipe.imagem}`" size="2rem" />
             </q-item-section>
           </q-item>
           <q-item v-if="tbRowsFiltered.length === 0 && tbRows.length > 0">
