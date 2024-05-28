@@ -18,12 +18,14 @@ const formValores = reactive({
   apelido: data.value.perfil.apelido,
   email: data.value.perfil.email,
   instagram: data.value.perfil.instagram,
-  classe: data.value.perfil.classe.id,
-  funcao: data.value.perfil.funcao.id
+  classe: data.value.perfil.classe?.id ? data.value.perfil.classe.id : null,
+  funcao: data.value.perfil.funcao?.id ? data.value.perfil.funcao.id : null,
+  equipe: data.value.perfil.equipe?.id ? data.value.perfil.equipe.id : null,
 })
 const formDisable = ref(false)
 const formClassesOpcoes = [{id: null, titulo: 'NENHUMA'}, ...ordenarArrayDeObjetos(data.value.classes, 'titulo')]
 const formFuncoesOpcoes = [{id: null, titulo: 'NENHUMA'}, ...ordenarArrayDeObjetos(data.value.funcoes, 'titulo')]
+const formEquipesOpcoes = [{id: null, nome: 'NENHUMA'}, ...ordenarArrayDeObjetos(data.value.equipes, 'nome')]
 const formSubmit = async () => {
   formDisable.value = true
   try {
@@ -38,6 +40,7 @@ const formSubmit = async () => {
 
 const getIconeClasse = id => formClassesOpcoes.find(i => i.id === id)?.icone
 const getIconeFuncao = id => formFuncoesOpcoes.find(i => i.id === id)?.icone
+const getIconeEquipe = id => formEquipesOpcoes.find(i => i.id === id)?.icone
 </script>
 
 <template>
@@ -146,6 +149,34 @@ const getIconeFuncao = id => formFuncoesOpcoes.find(i => i.id === id)?.icone
                 </q-item>
               </template>
             </q-select>
+            <q-select
+              label="Equipe"
+              v-model="formValores.equipe"
+              :disable="formDisable"
+              :options="formEquipesOpcoes"
+              option-label="nome"
+              option-value="id"
+              class="q-mt-lg"
+              map-options
+              emit-value
+              outlined
+              dense
+            >
+              <template #prepend v-if="formValores.equipe">
+                <q-icon :name="`img:/img/equipes/${getIconeEquipe(formValores.equipe)}`" />
+              </template>
+              <template #option="scope">
+                <q-item v-bind="scope.itemProps">
+                  <q-item-section avatar>
+                    <q-icon :name="`img:/img/equipes/${scope.opt.icone}`" v-if="scope.opt.icone" />
+                    <q-icon name="group" v-else />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>{{ scope.opt.nome }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select>
           </q-card-section>
           <q-card-actions class="justify-center">
             <q-btn color="negative" label="Cancelar" padding="xs md" @click="router.back()"/>
@@ -153,6 +184,13 @@ const getIconeFuncao = id => formFuncoesOpcoes.find(i => i.id === id)?.icone
           </q-card-actions>
         </q-card>
       </q-form>
+
+      <q-banner
+        class="bg-warning q-mt-md rounded-borders"
+        v-if="formValores.equipe && formValores.equipe !== (data.perfil.equipe?.id ? data.perfil.equipe.id : null)"
+      >
+        Você alterou a equipe. Essa informação vai passar por análise antes de ser divulgada na sua ficha.
+      </q-banner>
     </div>
   </q-page>
 </template>

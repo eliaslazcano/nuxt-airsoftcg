@@ -87,7 +87,7 @@ const copiarLink = async () => {
       <q-card flat bordered style="margin-top: 4.5rem">
         <q-card-section style="padding-top: 4.5rem" class="q-px-none q-pb-none">
           <div style="position: absolute; top: -4.5rem; text-align: center; width: 100%">
-            <q-avatar color="primary" size="9rem">
+            <q-avatar color="grey" size="9rem">
               <img :src="fotoSrc" alt="" v-if="fotoSrc">
               <q-icon name="person" color="white" size="6rem" v-else></q-icon>
               <q-btn

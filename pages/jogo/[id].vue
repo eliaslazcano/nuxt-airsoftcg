@@ -44,7 +44,7 @@ const organizadorImagem = computed(() => {
 })
 
 useSeoMeta({
-  title: 'Airsoft CG - Detalhes do jogo',
+  title: 'Airsoft CG - ' + (eventoNome.value ? eventoNome.value : 'Detalhes do jogo'),
   ogTitle: eventoNome.value ? eventoNome.value : `JOGO ABERTO - ${moment(pageData.value.jogo.datahora).format('DD/MM')}`,
   ogDescription: moment(pageData.value.jogo.datahora).format(eventoNome.value ? 'DD/MM HH[h]mm [-] ' : 'HH[h]mm [-] ') +
     (eventoLocalNome.value ? eventoLocalNome.value : moment(pageData.value.jogo.datahora).format('dddd').toUpperCase()),

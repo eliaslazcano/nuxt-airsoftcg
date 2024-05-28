@@ -101,9 +101,9 @@ const tbRowsFiltered = computed(() => {
         <q-list separator>
           <q-item v-for="i in tbRowsFiltered" :key="i.id" :to="`/perfil/${i.id}`" clickable>
             <q-item-section avatar>
-              <q-avatar :color="i.foto ? null : 'primary'">
+              <q-avatar :color="i.foto ? null : 'grey'">
                 <q-img :src="config.public.baseURL + `/usuario/avatar?id=${i.id}&thumb=40`" alt="" spinner-size="1rem" v-if="i.foto" />
-                <q-icon name="person" color="white" v-else />
+                <q-icon name="person" color="white" size="1.6rem" v-else />
               </q-avatar>
             </q-item-section>
             <q-item-section>
