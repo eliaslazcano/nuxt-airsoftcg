@@ -93,7 +93,7 @@ const formSubmit = async () => {
       organizadorNome: formOrganizadorNomeVlr.value ? formOrganizadorNomeVlr.value.trim().toUpperCase() : null,
       organizadorEquipe: formOrganizadorEquipeVlr.value ? formOrganizadorEquipeVlr.value.id : null,
       localNome: formCampoNomeVlr.value ? formCampoNomeVlr.value.trim().toUpperCase() : null,
-      localLink: formCampoLinkVlr.value ? formCampoLinkVlr.value.trim().toLowerCase() : null,
+      localLink: formCampoLinkVlr.value ? formCampoLinkVlr.value.trim() : null,
       texto: formEventoDescricao.value ? formEventoDescricao.value.trim() : null,
       icone: formEventoIconeNovo.value ? formEventoIconeNovo.value : null,
     }
