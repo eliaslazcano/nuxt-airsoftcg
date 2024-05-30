@@ -47,8 +47,8 @@ useSeoMeta({
   title: 'Airsoft CG - ' + (eventoNome.value ? eventoNome.value : 'Detalhes do jogo'),
   ogTitle: eventoNome.value ? eventoNome.value : `JOGO ABERTO - ${moment(pageData.value.jogo.datahora).format('DD/MM')}`,
   ogDescription: moment(pageData.value.jogo.datahora).format(eventoNome.value ? 'DD/MM HH[h]mm [-] ' : 'HH[h]mm [-] ') +
-    (eventoLocalNome.value ? eventoLocalNome.value : moment(pageData.value.jogo.datahora).format('dddd').toUpperCase()),
-  ogImage: eventoIcone.value ? eventoIcone.value : (organizadorImagem.value ? `https://airsoftcg.com.br/${organizadorImagem.value}` : null),
+    (eventoLocalNome.value ? `CAMPO ${eventoLocalNome.value}` : moment(pageData.value.jogo.datahora).format('dddd').toUpperCase()),
+  ogImage: eventoIcone.value ? eventoIcone.value : (organizadorImagem.value ? `https://airsoftcg.com.br${organizadorImagem.value}` : null),
 })
 
 const copiarTexto = async () => {
