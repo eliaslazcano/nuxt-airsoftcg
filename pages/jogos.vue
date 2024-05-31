@@ -19,7 +19,7 @@ const dataAtual = momentoAtual.format("YYYY-MM-DD HH:mm:ss")
 
 const getThumb = (icone, imagem) => {
   if (icone) return {src: `${config.public.baseURL}/storage/jogo/${icone}`, color: 'none', icon: false}
-  else if (imagem) return {src: `/img/equipes/${imagem}`, color: 'none', icon: false}
+  else if (imagem) return {src: `${config.public.baseURL}/storage/equipes/${imagem}`, color: 'none', icon: false}
   return {src: 'flag', color: 'primary', icon: true}
 }
 

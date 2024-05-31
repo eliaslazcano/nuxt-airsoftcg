@@ -5,7 +5,7 @@ useSeoMeta({
   ogTitle: 'Grupos de Whatsapp', //Titulo para whats
   ogDescription: 'Encontre grupos para jogar ou comercializar artigos de airsoft.', //Texto para whatsapp
 })
-
+const config = useRuntimeConfig()
 const {data} = await useApi('/whatsapp-grupos')
 </script>
 
@@ -21,7 +21,7 @@ const {data} = await useApi('/whatsapp-grupos')
                   <img
                     alt=""
                     class="rounded-borders"
-                    :src="`img/whatsapp/${i.imagem}`"
+                    :src="`${config.public.baseURL}/storage/whatsapp/${i.imagem}`"
                     style="height: 10rem; max-width: 10rem; width: 100%; object-fit: cover"
                   >
                 </div>

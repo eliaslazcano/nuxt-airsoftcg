@@ -6,7 +6,7 @@ useSeoMeta({
   ogTitle: 'Equipes de Airsoft',
   ogDescription: 'Equipes de Campo Grande e região',
 })
-
+const config = useRuntimeConfig()
 const {data} = await useApi('/equipes')
 </script>
 
@@ -24,7 +24,7 @@ const {data} = await useApi('/equipes')
             <q-card-section class="text-center">
               <img
                 alt=""
-                :src="`img/equipes/${i.imagem}`"
+                :src="`${config.public.baseURL}/storage/equipes/${i.imagem}`"
                 style="height: 8rem; max-width: 8rem; width: 100%; object-fit: contain" class="rounded-borders"
               >
               <div class="text-h6 q-mt-xs q-mb-none">{{i.nome}}</div>

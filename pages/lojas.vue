@@ -7,7 +7,7 @@ useSeoMeta({
   ogTitle: 'Lojas e Armeiros',
   ogDescription: 'Comerciantes de Airsoft em Campo Grande',
 })
-
+const config = useRuntimeConfig()
 const {data} = await useApi('/lojas')
 </script>
 
@@ -25,7 +25,7 @@ const {data} = await useApi('/lojas')
             <q-card-section class="text-center">
               <img
                 alt=""
-                :src="`img/lojas/${i.imagem}`"
+                :src="`${config.public.baseURL}/storage/lojas/${i.imagem}`"
                 style="height: 10rem; max-width: 10rem; width: 100%; object-fit: contain"
               />
               <div class="text-h6 q-mt-xs q-mb-none">{{i.nome}}</div>

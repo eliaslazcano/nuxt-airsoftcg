@@ -8,6 +8,7 @@ definePageMeta({
 
 const $q = useQuasar()
 const router = useRouter()
+const config = useRuntimeConfig()
 const sessionStore = useSessionStore()
 
 const usuarioId = sessionStore.payload.usuario
@@ -163,12 +164,12 @@ const getIconeEquipe = id => formEquipesOpcoes.find(i => i.id === id)?.icone
               dense
             >
               <template #prepend v-if="formValores.equipe">
-                <q-icon :name="`img:/img/equipes/${getIconeEquipe(formValores.equipe)}`" />
+                <q-icon :name="`img:${config.public.baseURL}/storage/equipes/${getIconeEquipe(formValores.equipe)}`" />
               </template>
               <template #option="scope">
                 <q-item v-bind="scope.itemProps">
                   <q-item-section avatar>
-                    <q-icon :name="`img:/img/equipes/${scope.opt.icone}`" v-if="scope.opt.icone" />
+                    <q-icon :name="`img:${config.public.baseURL}/storage/equipes/${scope.opt.icone}`" v-if="scope.opt.icone" />
                     <q-icon name="group" v-else />
                   </q-item-section>
                   <q-item-section>

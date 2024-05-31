@@ -121,7 +121,7 @@ const copiarLink = async () => {
           <q-item>
             <q-item-section avatar>
               <q-avatar square>
-                <img :src="`/img/equipes/${usuarioInfo.equipe.icone}`" alt="">
+                <img :src="`${config.public.baseURL}/storage/equipes/${usuarioInfo.equipe.icone}`" alt="">
               </q-avatar>
             </q-item-section>
             <q-item-section>

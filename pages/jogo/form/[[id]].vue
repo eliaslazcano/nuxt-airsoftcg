@@ -205,12 +205,12 @@ const editorConfig = [
                   >
                     <template v-slot:prepend v-if="formOrganizadorEquipeVlr">
                       <q-icon name="do_not_disturb" v-if="!formOrganizadorEquipeVlr.imagem" />
-                      <q-icon :name="`img:/img/equipes/${formOrganizadorEquipeVlr.imagem}`" v-else />
+                      <q-icon :name="`img:${config.public.baseURL}/storage/equipes/${formOrganizadorEquipeVlr.imagem}`" v-else />
                     </template>
                     <template v-slot:option="scope">
                       <q-item v-bind="scope.itemProps">
                         <q-item-section avatar>
-                          <q-icon :name="`img:/img/equipes/${scope.opt.imagem}`" v-if="scope.opt.imagem" />
+                          <q-icon :name="`img:${config.public.baseURL}/storage/equipes/${scope.opt.imagem}`" v-if="scope.opt.imagem" />
                           <q-icon name="do_not_disturb" v-else />
                         </q-item-section>
                         <q-item-section>

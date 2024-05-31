@@ -39,7 +39,7 @@ const organizadorNome = computed(() => {
   return ''
 })
 const organizadorImagem = computed(() => {
-  if (organizadorEquipe.value?.imagem) return `/img/equipes/${organizadorEquipe.value.imagem}`
+  if (organizadorEquipe.value?.imagem) return `${config.public.baseURL}/storage/equipes/${organizadorEquipe.value.imagem}`
   return null
 })
 

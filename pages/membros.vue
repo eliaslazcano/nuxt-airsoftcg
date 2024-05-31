@@ -130,7 +130,7 @@ const tbRowsFiltered = computed(() => {
               </q-item-label>
             </q-item-section>
             <q-item-section side v-if="i.equipe?.imagem">
-              <q-icon :name="`img:/img/equipes/${i.equipe.imagem}`" size="2rem" />
+              <q-icon :name="`img:${config.public.baseURL}/storage/equipes/${i.equipe.imagem}`" size="2rem" />
             </q-item-section>
           </q-item>
           <q-item v-if="tbRowsFiltered.length === 0 && tbRows.length > 0">
